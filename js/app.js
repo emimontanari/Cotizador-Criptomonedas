@@ -56,7 +56,7 @@ function submitFormulario(e){
         className: "info",
         duration: 2400,
         style: {
-          background: "#112B3C",
+          background: "#187498",
           color:"#EFEFEF",
           fontSize: "1.5rem",
           textAlign: "center",
@@ -72,7 +72,7 @@ function submitFormulario(e){
             className: "info",
             duration: 2500,
             style: {
-              background: "#4E9F3D",
+              background: "#36AE7C",
               color:"#fff",
               fontSize: "1.5rem",
               textAlign: "center",
