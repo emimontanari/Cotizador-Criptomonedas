@@ -54,7 +54,7 @@ body{
 }
 .formcontenedorUno select{
     width: 100%;
-    height: 30px;
+    height: 40px;
 }
 .formcontenedorDos{
     display: flex;
@@ -68,25 +68,30 @@ body{
     font-size: 2.5rem;
     color: #E9D5CA;
     text-transform: uppercase;
-    margin-bottom: .9rem;
 }
 .formcontenedorDos select{
     width: 100%;
-    height: 35px;
+    height: 40px;
+    margin-top: .9rem;
 }
 
 input{
     width: 100%;
-    height: 40px;
+    height: 45px;
     margin-bottom: 2rem;
     text-transform: uppercase;
     font-weight: 900;
-    background-color: #FAF0D7;
+    background-color: #006E7F;
+    color: #E9D5CA;
+    letter-spacing: 3px;
     border: none;
     text-align: center;
     padding: 1rem;
+    cursor: pointer;
 }
+
 .resultado{
+    margin-top: 2rem;
     color: #7F8487;
     font-size: 2rem;
     text-align: center;
@@ -100,7 +105,12 @@ input{
     margin-bottom: 1.5rem;
 }
 .error{
-    color: #FF1700;
-    font-size: 2rem;
+    width: 100%;
+    color: #E9D5CA;
+    font-size: 1.8rem;
     font-weight: 900;
+    border: 1px solid #EB5353;
+    padding: 1.5rem;
+    background-color: #FF1700;
+    text-align: center;
 }

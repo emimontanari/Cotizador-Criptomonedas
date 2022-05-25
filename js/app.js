@@ -126,7 +126,7 @@ function imprimirHTML(cotizacion){
 
     const precioBajo = document.createElement('p');
     precioBajo.innerHTML = `<p> Precio mas bajo del dia: <span> ${LOWDAY} </span>`;
-
+    //TODO: HACER UN IF SI EL PORCENTAJE EN MAYOR A 0 PINTARLOS DE VERDE Y SI EN MENOR A 0 PINTARLO EN ROJO
     const ultimasHoras = document.createElement('p');
     ultimasHoras.innerHTML = `<p>Variacion ultimas 24 horas: <span> ${CHANGEPCT24HOUR}% </span>`;
 
