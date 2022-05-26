@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 *{
     margin: 0;
     padding: 0;
@@ -21,6 +22,13 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+h1{
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.8rem;
+    color: #F66B0E;
+    font-weight: 400;
+    margin-bottom: 3rem;
 }
 .contenido{
     font-size: 2rem;
@@ -113,4 +121,15 @@ input{
     padding: 1.5rem;
     background-color: #FF1700;
     text-align: center;
+}
+
+.positivo{
+    color: #06FF00 !important;
+    font-weight: 900 !important;
+
+}
+.negativo{
+    color:#FF1700 !important;
+    font-weight: 900 !important;
+
 }

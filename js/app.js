@@ -108,7 +108,6 @@ function consultarAPI(){
         .then(respuesta => respuesta.json())
         .then(cotizacion => {
             imprimirHTML(cotizacion.DISPLAY[criptomoneda][moneda]);
-            console.log(cotizacion.DISPLAY[criptomoneda][moneda]);
         });
 
 };
@@ -116,7 +115,7 @@ function consultarAPI(){
 function imprimirHTML(cotizacion){
     limpiarHTML();
     const {PRICE, HIGHDAY,LOWDAY,CHANGEPCT24HOUR,LASTUPDATE} = cotizacion;
-
+    console.log(cotizacion);
     const precio = document.createElement('p');
     precio.classList.add('precio');
     precio.innerHTML = `El precio es: <span> ${PRICE} </span>`;
@@ -126,20 +125,24 @@ function imprimirHTML(cotizacion){
 
     const precioBajo = document.createElement('p');
     precioBajo.innerHTML = `<p> Precio mas bajo del dia: <span> ${LOWDAY} </span>`;
-    //TODO: HACER UN IF SI EL PORCENTAJE EN MAYOR A 0 PINTARLOS DE VERDE Y SI EN MENOR A 0 PINTARLO EN ROJO
-    const ultimasHoras = document.createElement('p');
-    ultimasHoras.innerHTML = `<p>Variacion ultimas 24 horas: <span> ${CHANGEPCT24HOUR}% </span>`;
 
+    const ultimasHoras = document.createElement('p');
+    ultimasHoras.innerHTML = `<p>Variacion ultimas 24 horas: <span id="change"> ${CHANGEPCT24HOUR}% </span>`;
     const ultimaActualizacion =  document.createElement('p');
     ultimaActualizacion.innerHTML = `<p>Ultima Actializacion: <span> ${LASTUPDATE} </span>`;
-
-
 
     resultado.appendChild(precio);
     resultado.appendChild(precioAlto);
     resultado.appendChild(precioBajo);
     resultado.appendChild(ultimasHoras);
     resultado.appendChild(ultimaActualizacion);
+
+    const change = document.querySelector('#change');
+    if(CHANGEPCT24HOUR >= 0){
+        change.classList.add('positivo');
+    }else{
+        change.classList.add('negativo');
+    };
 };
 
 function limpiarHTML(){
