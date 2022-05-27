@@ -84,20 +84,28 @@ h1{
 }
 
 input{
+    
     width: 100%;
     height: 45px;
     margin-bottom: 2rem;
     text-transform: uppercase;
+    background-color:#F66B0E;
     font-weight: 900;
-    background-color: #006E7F;
-    color: #E9D5CA;
+    color: #112B3C;
     letter-spacing: 3px;
     border: none;
     text-align: center;
     padding: 1rem;
     cursor: pointer;
+    transition: all .3s ease;
 }
-
+input:hover{
+    
+    background-color: #FF8E00;
+    color: #112B3C;
+    transform: scale(0.95);
+    font-size: 2rem !important;
+}
 .resultado{
     margin-top: 2rem;
     color: #7F8487;
@@ -114,13 +122,14 @@ input{
 }
 .error{
     width: 100%;
-    color: #E9D5CA;
+    color: #EEEEEE;
     font-size: 1.8rem;
     font-weight: 900;
-    border: 1px solid #EB5353;
+    border: none;
     padding: 1.5rem;
-    background-color: #FF1700;
+    background-color: #F24C4C;
     text-align: center;
+    font-family: 'Poppins', sans-serif;
 }
 
 .positivo{
