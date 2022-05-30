@@ -2,10 +2,13 @@ const criptomonedasSelect = document.querySelector('#criptomonedas');
 const monedaSelect = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
 const resultado = document.querySelector('#resultado');
+const ultimasBusqueda = document.querySelector('#ultimasBusquedas')
 const objBusqueda = {
     moneda: '',
     criptomoneda: ''
 }
+let criptos = [];
+
 //Crear un Promise
 const obtenerCriptomonedas = criptomonedas => new Promise (resolve => {
     resolve(criptomonedas);
@@ -16,6 +19,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     formulario.addEventListener('submit', submitFormulario);
     criptomonedasSelect.addEventListener('change', leerValor);
     monedaSelect.addEventListener('change', leerValor);
+
+    criptos = JSON.parse(localStorage.getItem('criptos')) || [];
+    ultimasBusquedas()
 });
 
 function consultarCriptomonedas(){
@@ -107,35 +113,40 @@ function consultarAPI(){
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(cotizacion => {
-            imprimirHTML(cotizacion.DISPLAY[criptomoneda][moneda]);
+            imprimirHTML(cotizacion.RAW[criptomoneda][moneda]);
+            llenarObjeto(cotizacion.RAW[criptomoneda][moneda]);
         });
-
-};
-
-function imprimirHTML(cotizacion){
-    limpiarHTML();
-    const {PRICE, HIGHDAY,LOWDAY,CHANGEPCT24HOUR,LASTUPDATE} = cotizacion;
-    console.log(cotizacion);
+        
+    };
+    
+    function imprimirHTML(cotizacion){
+        limpiarHTML();
+        llenarObjeto(cotizacion)
+        const {FROMSYMBOL,TOSYMBOL, PRICE, HIGHDAY,LOWDAY,CHANGEPCT24HOUR,LASTUPDATE} = cotizacion;
+    
+    const nombre = document.createElement('p');
+    nombre.innerHTML = `<p> Nombre de criptomoneda: <span> ${FROMSYMBOL} </span>`;
+    const nombreDos = document.createElement('p');
+    nombreDos.innerHTML = `<p> Nombre de Moneda Fiat: <span> ${TOSYMBOL} </span>`;
     const precio = document.createElement('p');
     precio.classList.add('precio');
-    precio.innerHTML = `El precio es: <span> ${PRICE} </span>`;
+    precio.innerHTML = `El precio es: <span> $${PRICE} </span>`;
 
     const precioAlto = document.createElement('p');
-    precioAlto.innerHTML = `<p> Precio mas alto del dia: <span> ${HIGHDAY} </span>`;
+    precioAlto.innerHTML = `<p> Precio mas alto del dia: <span> $${HIGHDAY} </span>`;
 
     const precioBajo = document.createElement('p');
-    precioBajo.innerHTML = `<p> Precio mas bajo del dia: <span> ${LOWDAY} </span>`;
+    precioBajo.innerHTML = `<p> Precio mas bajo del dia: <span> $${LOWDAY} </span>`;
 
     const ultimasHoras = document.createElement('p');
-    ultimasHoras.innerHTML = `<p>Variacion ultimas 24 horas: <span id="change"> ${CHANGEPCT24HOUR}% </span>`;
-    const ultimaActualizacion =  document.createElement('p');
-    ultimaActualizacion.innerHTML = `<p>Ultima Actializacion: <span> ${LASTUPDATE} </span>`;
+    ultimasHoras.innerHTML = `<p>Variacion ultimas 24 horas: <span id="change"> ${financial(CHANGEPCT24HOUR)}% </span>`;
 
+    resultado.appendChild(nombre);
+    resultado.appendChild(nombreDos);
     resultado.appendChild(precio);
     resultado.appendChild(precioAlto);
     resultado.appendChild(precioBajo);
     resultado.appendChild(ultimasHoras);
-    resultado.appendChild(ultimaActualizacion);
 
     const change = document.querySelector('#change');
     if(CHANGEPCT24HOUR >= 0){
@@ -150,3 +161,98 @@ function limpiarHTML(){
         resultado.removeChild(resultado.firstChild)
     };
 };
+function financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+  };
+
+
+
+
+function llenarObjeto(cotizacion){
+    const {FROMSYMBOL,TOSYMBOL, PRICE, HIGHDAY,LOWDAY,CHANGEPCT24HOUR,LASTUPDATE} = cotizacion;
+    // objCripto.name = cotizacion.RAW[criptomoneda][moneda].FROMSYMBOL
+
+    const objCripto = {
+    name: FROMSYMBOL,
+    namefiat: TOSYMBOL,
+    price: PRICE,
+    highday: HIGHDAY,
+    lowday: LOWDAY,
+    charge: CHANGEPCT24HOUR,
+    lastupdate: LASTUPDATE
+    };
+
+    criptos = [...criptos, objCripto];
+    ultimasBusquedas(criptos)
+};
+
+function sincronizarStorage(){
+    localStorage.setItem('criptos', JSON.stringify(criptos))
+
+};
+
+
+
+
+function ultimasBusquedas(){
+
+    console.log(criptos)
+
+    criptos.forEach(cripto =>{
+        const {name, namefiat, price, highday, lowday,change} = cripto
+        console.log(name)
+        const div = document.createElement('div')
+        div.classList.add('ultbs')
+        div.innerHTML = `
+            <div>
+            ${name}/${namefiat}
+            </div>
+            <div>
+            ${price}
+            </div>
+        `
+        ultimasBusqueda.appendChild(div)
+
+    });
+
+
+//     for(let i = 0 ; i < criptos.length; i++){
+//         console.log(criptos[i])
+    
+//     const nombre = document.createElement('p');
+//     nombre.innerHTML = `<p> Nombre de criptomoneda: <span> ${criptos[i].name} </span> <br>`;
+//     const nombreDos = document.createElement('p');
+//     nombreDos.innerHTML = `<p> Nombre de Moneda Fiat: <span> ${criptos[i].namefiat} </span>`;
+//     const precio = document.createElement('p');
+//     precio.classList.add('precio');
+//     precio.innerHTML = `El precio es: <span> $${criptos[i].price} </span>`;
+
+//     const precioAlto = document.createElement('p');
+//     precioAlto.innerHTML = `<p> Precio mas alto del dia: <span> $${criptos[i].highday} </span>`;
+
+//     const precioBajo = document.createElement('p');
+//     precioBajo.innerHTML = `<p> Precio mas bajo del dia: <span> $${criptos[i].lowday} </span>`;
+
+//     const ultimasHoras = document.createElement('p');
+//     ultimasHoras.innerHTML = `<p>Variacion ultimas 24 horas: <span id="change"> ${financial(criptos[i].change)}% </span>`;
+
+//     ultimasBusqueda.appendChild(nombre);
+//     ultimasBusqueda.appendChild(nombreDos);
+//     ultimasBusqueda.appendChild(precio);
+//     ultimasBusqueda.appendChild(precioAlto);
+//     ultimasBusqueda.appendChild(precioBajo);
+//     ultimasBusqueda.appendChild(ultimasHoras);
+// };
+//     sincronizarStorage()
+};
+
+
+
+
+
+
+//TODO: 1) CAMBIAR LOS VALORES DE COTIZAR DE DISPLAY A RAW ✅
+//TODO: 2) CAMBIAR LA FUNCION DE IMPRIMIR HTML DE LOS VALORES DE DISPLAY A RAW ✅
+//TODO: 3) CREAR UN OBJETO CON LOS VALORES ✅
+//TODO: 4) LLENAR ESE OBJETO CUANDO SE MANDE LOS INPUT PARA ALMACENARLOS EN EL LOCALSTORADE
+//TODO: 5) IMPRIMIR LOS DATOS DEL LOCAL EN UNA LISTA O DIV COMO ULTIMAS BUSQUEDAS.

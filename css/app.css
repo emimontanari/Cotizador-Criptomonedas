@@ -142,3 +142,21 @@ input:hover{
     font-weight: 900 !important;
 
 }
+
+.historial{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    justify-content: center;
+}
+.ultbs{
+    background-color: #112B3C;
+    width: 20%;
+    padding: 1rem;
+    text-align: center;
+    color: #E9D5CA;
+    border: 1px solid #F66B0E;
+    margin: 1rem;
+}
